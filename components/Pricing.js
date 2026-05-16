@@ -1,34 +1,72 @@
+'use client'
+import { useState } from 'react'
+import { createClient } from '@/lib/supabase'
+import { useRouter } from 'next/navigation'
+
 const plans = [
   {
+    id: 'free',
     name: 'Free',
     price: '$0',
     desc: 'Try it out',
     features: ['10 leads / month', '1 target area', 'Manual emails'],
-    cta: 'Get started',
-    href: '/signup',
+    cta: 'Get started free',
     featured: false,
   },
   {
+    id: 'pro',
     name: 'Pro',
     price: '$49',
     desc: 'For active agents',
     features: ['500 leads / month', '3 target areas', 'Automated emails', 'Smart follow-ups', 'Analytics dashboard'],
     cta: 'Start Pro',
-    href: '/signup?plan=pro',
     featured: true,
   },
   {
+    id: 'agency',
     name: 'Agency',
     price: '$149',
     desc: 'For teams',
     features: ['Unlimited leads', 'Unlimited areas', 'Multi-agent access', 'API access', 'Priority support'],
     cta: 'Start Agency',
-    href: '/signup?plan=agency',
     featured: false,
   },
 ]
 
 export default function Pricing() {
+  const [loading, setLoading] = useState(null)
+  const router = useRouter()
+  const supabase = createClient()
+
+  async function handlePlan(planId) {
+    if (planId === 'free') {
+      router.push('/signup')
+      return
+    }
+
+    setLoading(planId)
+
+    const { data: { user } } = await supabase.auth.getUser()
+
+    const res = await fetch('/api/stripe', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        plan: planId,
+        email: user?.email || '',
+      }),
+    })
+
+    const data = await res.json()
+
+    if (data.url) {
+      window.location.href = data.url
+    } else {
+      alert('Something went wrong. Please try again.')
+      setLoading(null)
+    }
+  }
+
   return (
     <section id="pricing" className="py-32">
       <div className="max-w-6xl mx-auto px-6">
@@ -43,7 +81,7 @@ export default function Pricing() {
         <div className="grid md:grid-cols-3 gap-4 items-start">
           {plans.map((plan) => (
             <div
-              key={plan.name}
+              key={plan.id}
               className={`rounded-2xl p-8 flex flex-col gap-6 ${
                 plan.featured
                   ? 'bg-electric/10 border border-electric/30 glow-blue'
@@ -72,16 +110,17 @@ export default function Pricing() {
                 ))}
               </ul>
 
-              <a
-                href={plan.href}
-                className={`mt-auto text-center py-3 px-6 rounded-xl font-semibold text-sm transition-colors ${
+              <button
+                onClick={() => handlePlan(plan.id)}
+                disabled={loading === plan.id}
+                className={`mt-auto text-center py-3 px-6 rounded-xl font-semibold text-sm transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${
                   plan.featured
                     ? 'bg-electric hover:bg-electric-light text-white'
                     : 'card-glass hover:bg-white/[0.08] text-white/80 hover:text-white'
                 }`}
               >
-                {plan.cta} →
-              </a>
+                {loading === plan.id ? 'Redirecting...' : `${plan.cta} →`}
+              </button>
             </div>
           ))}
         </div>
