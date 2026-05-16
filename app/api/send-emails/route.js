@@ -20,7 +20,7 @@ export async function POST(request) {
           .replace('{{address}}', lead.address || 'your property')
 
         const { data, error } = await resend.emails.send({
-          from: 'ProspectImmo <onboarding@resend.dev>',
+          from: 'GotProspect <noreply@gotprospect.com>',
           to: lead.email,
           subject: `A message from ${agentName} about your property`,
           html: `
