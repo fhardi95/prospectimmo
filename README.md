@@ -54,4 +54,3 @@ prospectimmo/
 - [ ] Étape 2 : Authentification (NextAuth.js)
 - [ ] Étape 3 : Paiement (Stripe)
 - [ ] Étape 4 : Génération de leads + emails
-"# prospectimmo" 
