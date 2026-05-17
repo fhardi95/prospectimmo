@@ -3,16 +3,11 @@ import { useEffect, useState, useRef } from 'react'
 import { createClient } from '@/lib/supabase'
 import { useRouter } from 'next/navigation'
 
-export default function DashboardPage() {
-  const [user, setUser] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [leads, setLeads] = useState([])
-  const [agentName, setAgentName] = useState('')
-const [message, setMessage] = useState(`Hi {{name}},
+const DEFAULT_MESSAGE = `Hi {{name}},
 
-I'll keep this short.
+I will keep this short.
 
-I built a tool called GotProspect that automatically finds motivated home sellers in your area and sends personalized emails on your behalf — every day.
+I built a tool called GotProspect that automatically finds motivated home sellers in your area and sends personalized emails on your behalf every day.
 
 No more cold calling. No more door knocking.
 Just motivated sellers landing in your inbox.
@@ -24,9 +19,14 @@ https://gotprospect.com/signup
 Any questions? Just reply to this email.
 
 Alex
-GotProspect.com`)
+GotProspect.com`
 
-Looking forward to hearing from you.`)
+export default function DashboardPage() {
+  const [user, setUser] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [leads, setLeads] = useState([])
+  const [agentName, setAgentName] = useState('Alex')
+  const [message, setMessage] = useState(DEFAULT_MESSAGE)
   const [sending, setSending] = useState(false)
   const [result, setResult] = useState(null)
   const [csvError, setCsvError] = useState('')
@@ -41,7 +41,6 @@ Looking forward to hearing from you.`)
         router.push('/login')
       } else {
         setUser(user)
-       setAgentName('Alex')
         setLoading(false)
       }
     }
@@ -121,9 +120,9 @@ Looking forward to hearing from you.`)
       <nav className="border-b border-white/[0.06] bg-navy-900/80 backdrop-blur-xl px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="w-7 h-7 rounded-lg bg-electric flex items-center justify-center">
-            <span className="text-white font-mono text-xs font-bold">P</span>
+            <span className="text-white font-mono text-xs font-bold">G</span>
           </div>
-          <span className="font-semibold text-white tracking-tight">ProspectImmo</span>
+          <span className="font-semibold text-white tracking-tight">GotProspect</span>
         </div>
         <div className="flex items-center gap-4">
           <span className="text-xs text-white/40 hidden md:block">{user?.email}</span>
@@ -140,21 +139,21 @@ Looking forward to hearing from you.`)
         </div>
 
         <div className="card-glass rounded-2xl p-8">
-          <h2 className="text-lg font-semibold text-white mb-4">① Your name</h2>
+          <h2 className="text-lg font-semibold text-white mb-4">Your name</h2>
           <input type="text" value={agentName} onChange={(e) => setAgentName(e.target.value)} placeholder="Your full name" className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm focus:outline-none focus:border-electric/50 transition-colors" />
         </div>
 
         <div className="card-glass rounded-2xl p-8">
-          <h2 className="text-lg font-semibold text-white mb-2">② Import leads (CSV)</h2>
+          <h2 className="text-lg font-semibold text-white mb-2">Import leads (CSV)</h2>
           <p className="text-white/40 text-sm mb-4">Your CSV must have an email column. Optional: name, address.</p>
           <button onClick={() => fileRef.current.click()} className="card-glass hover:bg-white/[0.08] transition-colors text-white/70 hover:text-white px-6 py-3 rounded-xl text-sm font-medium">
-            📂 Choose CSV file
+            Choose CSV file
           </button>
           <input ref={fileRef} type="file" accept=".csv" onChange={handleCSV} className="hidden" />
           {csvError && <p className="text-red-400 text-sm mt-3">{csvError}</p>}
           {leads.length > 0 && (
             <div className="mt-4">
-              <p className="text-green-400 text-sm mb-3">✓ {leads.length} leads loaded</p>
+              <p className="text-green-400 text-sm mb-3">{leads.length} leads loaded</p>
               <div className="bg-white/[0.03] rounded-xl overflow-hidden">
                 <table className="w-full text-xs text-white/60">
                   <thead><tr className="border-b border-white/[0.06]"><th className="text-left px-4 py-2">Email</th><th className="text-left px-4 py-2">Name</th><th className="text-left px-4 py-2">Address</th></tr></thead>
@@ -162,8 +161,8 @@ Looking forward to hearing from you.`)
                     {leads.slice(0, 5).map((l, i) => (
                       <tr key={i} className="border-b border-white/[0.04]">
                         <td className="px-4 py-2">{l.email}</td>
-                        <td className="px-4 py-2">{l.name || '—'}</td>
-                        <td className="px-4 py-2">{l.address || '—'}</td>
+                        <td className="px-4 py-2">{l.name || '-'}</td>
+                        <td className="px-4 py-2">{l.address || '-'}</td>
                       </tr>
                     ))}
                   </tbody>
@@ -175,19 +174,19 @@ Looking forward to hearing from you.`)
         </div>
 
         <div className="card-glass rounded-2xl p-8">
-          <h2 className="text-lg font-semibold text-white mb-2">③ Personalize your message</h2>
-          <p className="text-white/40 text-sm mb-4">Use {"{{name}}"} and {"{{address}}"} for personalization.</p>
-          <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={8} className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm focus:outline-none focus:border-electric/50 transition-colors resize-none font-mono" />
+          <h2 className="text-lg font-semibold text-white mb-2">Personalize your message</h2>
+          <p className="text-white/40 text-sm mb-4">Use name and address for personalization.</p>
+          <textarea value={message} onChange={(e) => setMessage(e.target.value)} rows={10} className="w-full bg-white/[0.05] border border-white/[0.08] rounded-xl px-4 py-3 text-white placeholder-white/20 text-sm focus:outline-none focus:border-electric/50 transition-colors resize-none font-mono" />
         </div>
 
         <div className="card-glass rounded-2xl p-8">
-          <h2 className="text-lg font-semibold text-white mb-4">④ Send emails</h2>
+          <h2 className="text-lg font-semibold text-white mb-4">Send emails</h2>
           <button onClick={handleSend} disabled={sending || leads.length === 0} className="bg-electric hover:bg-electric-light disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-white px-8 py-3 rounded-xl font-semibold text-sm">
-            {sending ? `Sending to ${leads.length} leads...` : `🚀 Send to ${leads.length} leads`}
+            {sending ? `Sending to ${leads.length} leads...` : `Send to ${leads.length} leads`}
           </button>
           {result && (
             <div className={`mt-4 rounded-xl px-4 py-3 text-sm ${result.error ? 'bg-red-500/10 border border-red-500/20 text-red-400' : 'bg-green-500/10 border border-green-500/20 text-green-400'}`}>
-              {result.error ? `Error: ${result.error}` : `✓ ${result.sent} emails sent successfully${result.failed > 0 ? `, ${result.failed} failed` : ''}`}
+              {result.error ? `Error: ${result.error}` : `${result.sent} emails sent successfully${result.failed > 0 ? `, ${result.failed} failed` : ''}`}
             </div>
           )}
         </div>
