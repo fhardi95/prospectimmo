@@ -19,7 +19,7 @@ Just motivated sellers landing in your inbox.
 
 Would you like to try it free for 30 days? No credit card required.
 
-👉 https://gotprospect.com/signup
+https://gotprospect.com/signup
 
 Any questions? Just reply to this email.
 
