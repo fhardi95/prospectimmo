@@ -9,8 +9,8 @@ export default function DashboardPage() {
   const [leads, setLeads] = useState([])
   const [agentName, setAgentName] = useState('')
   const [message, setMessage] = useState(`Hi {{name}},
-  
-My name is Alex and I'm a real estate lead generation specialist. I noticed your property at {{address}} and wanted to reach out.
+
+My name is your name and I'm a local real estate agent. I noticed your property at {{address}} and wanted to reach out.
 
 If you're considering selling in the near future, I'd love to offer you a free, no-obligation market valuation.
 
@@ -31,7 +31,7 @@ Looking forward to hearing from you.`)
         router.push('/login')
       } else {
         setUser(user)
-        setAgentName('Alex')
+        setAgentName(user.email.split('@')[0])
         setLoading(false)
       }
     }

@@ -1,5 +1,6 @@
 import { Sora, DM_Mono } from 'next/font/google'
 import './globals.css'
+import CookieBanner from '@/components/CookieBanner'
 
 const sora = Sora({
   subsets: ['latin'],
@@ -15,13 +16,13 @@ const dmMono = DM_Mono({
 })
 
 export const metadata = {
-  title: 'ProspectImmo — Find motivated home sellers automatically',
-  description: 'ProspectImmo identifies homeowners ready to sell and reaches out on your behalf. Close more deals, do less manual work.',
+  title: 'GotProspect — Find motivated home sellers automatically',
+  description: 'GotProspect identifies homeowners ready to sell and reaches out on your behalf. Close more deals, do less manual work.',
   openGraph: {
-    title: 'ProspectImmo',
+    title: 'GotProspect',
     description: 'Automated lead generation for real estate agents.',
-    url: 'https://prospectimmo.com',
-    siteName: 'ProspectImmo',
+    url: 'https://gotprospect.com',
+    siteName: 'GotProspect',
   },
 }
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }) {
     <html lang="en" className={`${sora.variable} ${dmMono.variable}`}>
       <body className="bg-navy-900 text-white antialiased">
         {children}
+        <CookieBanner />
       </body>
     </html>
   )
