@@ -8,13 +8,23 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true)
   const [leads, setLeads] = useState([])
   const [agentName, setAgentName] = useState('')
-  const [message, setMessage] = useState(`Hi {{name}},
+const [message, setMessage] = useState(`Hi {{name}},
 
-My name is your name and I'm a local real estate agent. I noticed your property at {{address}} and wanted to reach out.
+I'll keep this short.
 
-If you're considering selling in the near future, I'd love to offer you a free, no-obligation market valuation.
+I built a tool called GotProspect that automatically finds motivated home sellers in your area and sends personalized emails on your behalf — every day.
 
-Would you like to try GotProspect free for 30 days? No credit card required. Just click here: https://gotprospect.com/signup
+No more cold calling. No more door knocking.
+Just motivated sellers landing in your inbox.
+
+Would you like to try it free for 30 days? No credit card required.
+
+👉 https://gotprospect.com/signup
+
+Any questions? Just reply to this email.
+
+Alex
+GotProspect.com`)
 
 Looking forward to hearing from you.`)
   const [sending, setSending] = useState(false)
@@ -31,7 +41,7 @@ Looking forward to hearing from you.`)
         router.push('/login')
       } else {
         setUser(user)
-        setAgentName(user.email.split('@')[0])
+       setAgentName('Alex')
         setLoading(false)
       }
     }
