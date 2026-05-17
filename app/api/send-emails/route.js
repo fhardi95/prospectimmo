@@ -60,9 +60,6 @@ export async function POST(request) {
             <td style="background: #ffffff; padding: 40px 40px 32px 40px;">
               
               <!-- Greeting -->
-              <p style="margin: 0 0 24px 0; color: #111827; font-size: 22px; font-weight: 600; line-height: 1.3;">
-                Hi ${lead.name || 'there'} 👋
-              </p>
 
               <!-- Message -->
               ${messageLines}
