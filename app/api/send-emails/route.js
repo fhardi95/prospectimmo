@@ -32,7 +32,7 @@ export async function POST(request) {
               <p style="font-size: 14px; color: #666;">
                 Best regards,<br/>
                 <strong>${agentName}</strong><br/>
-                <a href="mailto:${agentEmail}" style="color: #2563FF;">${agentEmail}</a>
+                <a href="mailto:alex@gotprospect.com" style="color: #2563FF;">alex@gotprospect.com</a>
               </p>
               <hr style="border: none; border-top: 1px solid #eee; margin: 24px 0;"/>
               <p style="font-size: 12px; color: #999;">
