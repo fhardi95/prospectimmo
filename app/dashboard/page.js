@@ -14,7 +14,7 @@ My name is your name and I'm a local real estate agent. I noticed your property 
 
 If you're considering selling in the near future, I'd love to offer you a free, no-obligation market valuation.
 
-Would you be open to a quick call this week?
+Would you like to try GotProspect free for 30 days? No credit card required. Just click here: https://gotprospect.com/signup
 
 Looking forward to hearing from you.`)
   const [sending, setSending] = useState(false)
