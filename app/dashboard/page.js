@@ -31,7 +31,7 @@ Looking forward to hearing from you.`)
         router.push('/login')
       } else {
         setUser(user)
-        setAgentName(user.email.split('@')[0])
+        setAgentName('Alex')
         setLoading(false)
       }
     }
